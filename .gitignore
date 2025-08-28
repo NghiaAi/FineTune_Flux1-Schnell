@@ -1,0 +1,7 @@
+# Bỏ qua file Word
+*.doc
+*.docx
+
+# Bỏ qua file PowerPoint
+*.ppt
+*.pptx

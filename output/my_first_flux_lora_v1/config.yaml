@@ -1,0 +1,97 @@
+job: extension
+config:
+  name: my_first_flux_lora_v1
+  process:
+  - type: sd_trainer
+    log_dir: logs
+    logs_config:
+      log_interval: 10
+    training_folder: /workspace/output
+    device: cuda:0
+    trigger_word: McDonald's
+    network:
+      type: lora
+      linear: 16
+      linear_alpha: 16
+    save:
+      dtype: float16
+      save_every: 250
+      max_step_saves_to_keep: 4
+    datasets:
+    - folder_path: /workspace/data
+      caption_ext: txt
+      caption_dropout_rate: 0.1
+      shuffle_tokens: false
+      cache_latents_to_disk: true
+      resolution:
+      - 1024
+    train:
+      batch_size: 1
+      steps: 500
+      gradient_accumulation_steps: 2
+      train_unet: true
+      train_text_encoder: false
+      gradient_checkpointing: true
+      noise_scheduler: flowmatch
+      optimizer: adamw8bit
+      lr: 0.0001
+      skip_first_sample: true
+      ema_config:
+        use_ema: true
+        ema_decay: 0.999
+      dtype: float16
+    model:
+      name_or_path: black-forest-labs/FLUX.1-schnell
+      assistant_lora_path: ostris/FLUX.1-schnell-training-adapter
+      is_flux: true
+      quantize: true
+    sample:
+      sampler: flowmatch
+      sample_every: 100
+      width: 1024
+      height: 1024
+      prompts:
+      - '[trigger] Design a luxurious McDonald''s poster for ''The Perfect Fried Chicken
+        by AI,'' featuring two crispy chicken pieces (spicy dark-coated and glossy
+        golden brown) on fine parchment with gold accents, on the right. Above, display
+        the McDonald''s logo in gold and ''THE PERFECT FRIED CHICKEN'' in elegant
+        white font. On the left, show a sleek AI chat with a user asking ''What defines
+        a perfect fried chicken?'' and AI replying ''unmatched crispiness, succulent
+        juiciness, tender texture, refined spices.'' Use a deep velvet-black background
+        with subtle marble textures for a modern, opulent vibe.'
+      - "[trigger] Design a bold McDonald's poster promoting a limited-time combo\
+        \ deal, featuring a Big Mac, fries, and a drink at a discounted price, set\
+        \ against a red and gold background with celebratory confetti. Show a diverse\
+        \ group of friends cheering. Include the McDonald's logo and 'Big Mac Combo\
+        \ Deal \u2013 Save Now!' in glowing yellow font. The design is festive, modern,\
+        \ and attention-grabbing"
+      - '[trigger] Design a vibrant McDonald''s poster showcasing a McSpicy Paneer
+        burger with golden paneer, spicy sauce, and fresh veggies, set against a colorful
+        background inspired by Indian textiles (orange, pink, and gold patterns).
+        Include the McDonald''s logo and ''Discover the McSpicy Paneer!'' in bold
+        yellow font. The design is lively, modern, and celebrates South Asian flavors,
+        with a festive, inclusive vibe.'
+      - "[trigger] Design a bold McDonald's poster for a limited-time Spicy McChicken\
+        \ Sandwich, featuring crispy chicken, fiery sauce, and lettuce on a red and\
+        \ black background with flame effects. Include the McDonald's logo and 'Try\
+        \ the Spicy McChicken \u2013 Limited Time Only!' in glowing yellow font. The\
+        \ design is modern, high-energy, and attention-grabbing."
+      - '[trigger] Design a sleek McDonald''s poster promoting McDelivery, showing
+        a bag of McDonald''s food (burgers, fries, and shakes) delivered to a trendy
+        urban apartment at night, with city lights in the background. Feature a diverse
+        group of young adults enjoying the meal. Use a bold red and black palette
+        with neon accents. Include the McDonald''s logo and ''McDelivery: Anytime,
+        Anywhere!'' in glowing yellow font. The style is modern, vibrant, and youth-focused.'
+      - '[trigger] Design a vibrant McDonald''s poster showcasing a diverse family
+        in a colorful SUV at a McDonald''s drive-thru, receiving a bag of burgers
+        and fries from a smiling employee. The background features golden arches glowing
+        against a sunset sky. Include the McDonald''s logo and ''Drive-Thru Deliciousness!''
+        in white font. The style is warm, realistic, and family-friendly.'
+      neg: ''
+      seed: 42
+      walk_seed: false
+      guidance_scale: 3.5
+      sample_steps: 10
+meta:
+  name: my_first_flux_lora_v1
+  version: '1.0'
