@@ -36,16 +36,16 @@ You can fine-tune the model using the provided Jupyter Notebook:
 
 1.  Open `Fine Tune Flux.1-Schnell.ipynb`\
 2.  Update dataset path in cell 11 \
-('datasets', [
-                    OrderedDict([
-                        ('folder_path', '/workspace/data'),
-                        ('caption_ext', 'txt'),
-                        ('caption_dropout_rate', 0.1),
-                        ('shuffle_tokens', False),
-                        ('cache_latents_to_disk', True),
-                        ('resolution', [1024])
-                    ])
-                ]),
+('datasets', [ \
+                    OrderedDict([ \
+                        ('folder_path', '/workspace/data'), # path dataset here\
+                        ('caption_ext', 'txt'), \ 
+                        ('caption_dropout_rate', 0.1),\ 
+                        ('shuffle_tokens', False),\ 
+                        ('cache_latents_to_disk', True),\ 
+                        ('resolution', [1024]) \
+                    ])\
+                ]),\
 3.  Run all cells to start training
 
 Training outputs (fine-tuned checkpoints, logs, and generated images)
